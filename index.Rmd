@@ -1,0 +1,100 @@
+---
+title       : John Hopkins Data Scientist Developing Data Products
+subtitle    : Peer Assignment to sell 'Iris Species Predictor' application
+author      : Trevor Kelley
+framework   : html5slides   # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+warning     : Must set library(slidify) before knitr
+---
+
+## Overview
+<h4>The <b>Iris Species Predictor</b> application</h4>
+
+- An interactive web site.
+- Helps you identify the species of an Iris.
+- Compares your specimen to a large database.
+- Uses the latest in Machine Learning to predict.
+<p/>
+&nbsp;
+<p/>
+&nbsp;
+<p/>
+&nbsp;
+<p/>
+&nbsp;
+<p/>
+Hint: Click &lt;Space Bar&gt; to view next slide.
+
+---
+
+## How you use it
+
+- Measure the <b>Sepal</b> length and width in centimetres.
+- Use the sliding bar to set the metrics for your specimen.
+- The the <b>Species</b> of your specimen will be predicted.<br/>
+  (setosa, versicolor, virginica)
+- Where your specimen falls in relation to the reference iris is displayed.
+
+
+
+
+--- 
+
+## How it works under the covers
+```{r echo=FALSE}
+library(shiny)
+library(lattice)
+library(ggplot2)
+library(grid)
+library(gridExtra)
+library(caret)
+library(rpart)
+library(e1071)
+data(iris)
+```
+
+```{r echo=TRUE}
+# Use a random forest algorithm to fit non-linear relationships.
+modFit <- train(Species ~ ., method="rpart", data=iris)
+irisP <- data.frame(Sepal.Length=numeric(1), Sepal.Width=numeric(1), Petal.Length=numeric(1), Petal.Width=numeric(1), Species=character(1), stringsAsFactors=TRUE)
+
+irisP$Sepal.Length <- 6.0 # Entered by slider
+irisP$Sepal.Width <- 3.2 # Entered by slider
+irisP$Petal.Length <- 3 # Entered by slider
+irisP$Petal.Width <- 1.5 # Entered by slider
+irisP$Species <- predict(modFit, irisP)
+irisP$Species
+```
+
+---
+
+## What you see
+
+```{r echo=FALSE, results=FALSE}
+p1 <- qplot(Sepal.Width, Sepal.Length, col=Species, data=iris, xlab="Sepal width (cm)", ylab="Sepal length (cm)")
+p1 <- p1 + ggtitle("Sepal Length vs Width - X makes your sample")
+p1 <- p1 + geom_point(aes(x=Sepal.Width, y=Sepal.Length, col=Species), size=5, shape=4, data=irisP)
+  
+p2 <- qplot(Petal.Width, Petal.Length, col=Species,data=iris, xlab="Petal width (cm)", ylab="Petal length (cm)")
+p2 <- p2 + ggtitle("Petal Length vs Width - X makes your sample")
+p2 <- p2 + geom_point(aes(x=Petal.Width, y=Petal.Length, col=Species), size=5, shape=4, data=irisP)
+  
+grid.arrange(p1, p2, nrow = 2)
+```
+Notice your specimen is shown as an <font face="verdana" color="green"><b>X</b></font> in the predicted color.
+
+---
+
+
+## Where to get it
+
+You can start using the <b>Iris Species Predictor</b> at
+
+URL: <a ref='https://trevorbkelley.shinyapps.io/PeerAssessment_A_Shiny'><small>https://trevorbkelley.shinyapps.io/PeerAssessment_A_Shiny</small></a>
+<p/>
+![alt Picture of an Iris](http://www.flower-arrangement-advisor.com/images/dark_blue_iris_flowers.jpg)
+
+

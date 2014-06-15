@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<title>John Hopkins Data Scientist Developing Data Products</title>
+	<meta name="description" content="John Hopkins Data Scientist Developing Data Products">
+	<meta name="author" content="Trevor Kelley">
+	<meta name="generator" content="slidify" />
+	
+	<!-- LOAD STYLE SHEETS -->
+	<link rel="stylesheet" href="libraries/frameworks/html5slides/default/styles.css">
+	<link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />  <link rel="stylesheet" href = "assets/css/ribbons.css">
+  
+</head>
+<body style='display: none'>
+	<section class='slides layout-regular template-regular'>
+     <article class="" id="slide-1" style="background:;">
+  <h3>Overview</h3>
+  <h4>The <b>Iris Species Predictor</b> application</h4>
+
+<ul>
+<li>An interactive web site.</li>
+<li>Helps you identify the species of an Iris.</li>
+<li>Compares your specimen to a large database.</li>
+<li>Uses the latest in Machine Learning to predict.
+<p/>
+&nbsp;
+<p/>
+&nbsp;
+<p/>
+&nbsp;
+<p/>
+&nbsp;
+<p/>
+Hint: Click &lt;Space Bar&gt; to view next slide.</li>
+</ul>
+
+</article>
+
+<article class="" id="slide-2" style="background:;">
+  <h3>How you use it</h3>
+  <ul>
+<li>Measure the <b>Sepal</b> length and width in centimetres.</li>
+<li>Use the sliding bar to set the metrics for your specimen.</li>
+<li>The the <b>Species</b> of your specimen will be predicted.<br/>
+(setosa, versicolor, virginica)</li>
+<li>Where your specimen falls in relation to the reference iris is displayed.</li>
+</ul>
+
+</article>
+
+<article class="" id="slide-3" style="background:;">
+  <h3>How it works under the covers</h3>
+  <pre><code class="r"># Use a random forest algorithm to fit non-linear relationships.
+modFit &lt;- train(Species ~ ., method = &quot;rpart&quot;, data = iris)
+irisP &lt;- data.frame(Sepal.Length = numeric(1), Sepal.Width = numeric(1), Petal.Length = numeric(1), 
+    Petal.Width = numeric(1), Species = character(1), stringsAsFactors = TRUE)
+
+irisP$Sepal.Length &lt;- 6  # Entered by slider
+irisP$Sepal.Width &lt;- 3.2  # Entered by slider
+irisP$Petal.Length &lt;- 3  # Entered by slider
+irisP$Petal.Width &lt;- 1.5  # Entered by slider
+irisP$Species &lt;- predict(modFit, irisP)
+irisP$Species
+</code></pre>
+
+<pre><code>## [1] versicolor
+## Levels: setosa versicolor virginica
+</code></pre>
+
+</article>
+
+<article class="" id="slide-4" style="background:;">
+  <h3>What you see</h3>
+  <p><img src="figure/unnamed-chunk-3.png" alt="plot of chunk unnamed-chunk-3"> </p>
+
+<p>Notice your specimen is shown as an <font face="verdana" color="green"><b>X</b></font> in the predicted color.</p>
+
+</article>
+
+<article class="" id="slide-5" style="background:;">
+  <h3>Where to get it</h3>
+  <p>You can start using the <b>Iris Species Predictor</b> at</p>
+
+<p>URL: <a ref='https://trevorbkelley.shinyapps.io/PeerAssessment_A_Shiny'><small><a href="https://trevorbkelley.shinyapps.io/PeerAssessment_A_Shiny">https://trevorbkelley.shinyapps.io/PeerAssessment_A_Shiny</a></small></a>
+<p/>
+<img src="http://www.flower-arrangement-advisor.com/images/dark_blue_iris_flowers.jpg" alt="alt Picture of an Iris"></p>
+
+</article>
+
+  </section>
+</body>
+  <!-- LOAD JAVASCRIPTS  -->
+	<script src='libraries/frameworks/html5slides/default/slides.js'></script>
+	<!-- LOAD HIGHLIGHTER JS FILES -->
+	<script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+	<!-- DONE LOADING HIGHLIGHTER JS FILES -->
+	 
+	</html>
